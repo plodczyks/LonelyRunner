@@ -35,12 +35,12 @@
             this.roundCountTbx = new System.Windows.Forms.TextBox();
             this.speedAccuracyTbx = new System.Windows.Forms.TextBox();
             this.strategyGrb = new System.Windows.Forms.GroupBox();
-            this.gameTypeGpb = new System.Windows.Forms.GroupBox();
-            this.startBtn = new System.Windows.Forms.Button();
-            this.strategyEasyRdb = new System.Windows.Forms.RadioButton();
             this.strategyHardRbt = new System.Windows.Forms.RadioButton();
-            this.playerComputerRbt = new System.Windows.Forms.RadioButton();
+            this.strategyEasyRdb = new System.Windows.Forms.RadioButton();
+            this.gameTypeGpb = new System.Windows.Forms.GroupBox();
             this.computerPlayerRbt = new System.Windows.Forms.RadioButton();
+            this.playerComputerRbt = new System.Windows.Forms.RadioButton();
+            this.startBtn = new System.Windows.Forms.Button();
             this.gameStateLbl = new System.Windows.Forms.Label();
             this.player1VelocityLbl = new System.Windows.Forms.Label();
             this.player2VelocityLbl = new System.Windows.Forms.Label();
@@ -48,6 +48,9 @@
             this.player2VelocityTbx = new System.Windows.Forms.TextBox();
             this.nextBtn = new System.Windows.Forms.Button();
             this.gameDatasLbx = new System.Windows.Forms.ListBox();
+            this.runnersCountLbl = new System.Windows.Forms.Label();
+            this.nLetterLbl = new System.Windows.Forms.Label();
+            this.cancelBtn = new System.Windows.Forms.Button();
             this.strategyGrb.SuspendLayout();
             this.gameTypeGpb.SuspendLayout();
             this.SuspendLayout();
@@ -55,11 +58,11 @@
             // circleLengthLbl
             // 
             this.circleLengthLbl.AutoSize = true;
-            this.circleLengthLbl.Location = new System.Drawing.Point(52, 20);
+            this.circleLengthLbl.Location = new System.Drawing.Point(52, 9);
             this.circleLengthLbl.Name = "circleLengthLbl";
-            this.circleLengthLbl.Size = new System.Drawing.Size(104, 13);
+            this.circleLengthLbl.Size = new System.Drawing.Size(84, 13);
             this.circleLengthLbl.TabIndex = 0;
-            this.circleLengthLbl.Text = "Długość okręgu (N):";
+            this.circleLengthLbl.Text = "Długość okręgu";
             // 
             // roundCountLbl
             // 
@@ -81,7 +84,7 @@
             // 
             // circleLengthTbx
             // 
-            this.circleLengthTbx.Location = new System.Drawing.Point(162, 17);
+            this.circleLengthTbx.Location = new System.Drawing.Point(162, 13);
             this.circleLengthTbx.Name = "circleLengthTbx";
             this.circleLengthTbx.Size = new System.Drawing.Size(48, 20);
             this.circleLengthTbx.TabIndex = 4;
@@ -111,26 +114,15 @@
             this.strategyGrb.TabStop = false;
             this.strategyGrb.Text = "Strategia";
             // 
-            // gameTypeGpb
+            // strategyHardRbt
             // 
-            this.gameTypeGpb.Controls.Add(this.computerPlayerRbt);
-            this.gameTypeGpb.Controls.Add(this.playerComputerRbt);
-            this.gameTypeGpb.Location = new System.Drawing.Point(375, 20);
-            this.gameTypeGpb.Name = "gameTypeGpb";
-            this.gameTypeGpb.Size = new System.Drawing.Size(128, 72);
-            this.gameTypeGpb.TabIndex = 8;
-            this.gameTypeGpb.TabStop = false;
-            this.gameTypeGpb.Text = "Rodzaj gry";
-            // 
-            // startBtn
-            // 
-            this.startBtn.Location = new System.Drawing.Point(523, 76);
-            this.startBtn.Name = "startBtn";
-            this.startBtn.Size = new System.Drawing.Size(75, 23);
-            this.startBtn.TabIndex = 9;
-            this.startBtn.Text = "Start";
-            this.startBtn.UseVisualStyleBackColor = true;
-            this.startBtn.Click += new System.EventHandler(this.startBtn_Click);
+            this.strategyHardRbt.AutoSize = true;
+            this.strategyHardRbt.Location = new System.Drawing.Point(7, 43);
+            this.strategyHardRbt.Name = "strategyHardRbt";
+            this.strategyHardRbt.Size = new System.Drawing.Size(59, 17);
+            this.strategyHardRbt.TabIndex = 1;
+            this.strategyHardRbt.Text = "Trudna";
+            this.strategyHardRbt.UseVisualStyleBackColor = true;
             // 
             // strategyEasyRdb
             // 
@@ -144,15 +136,26 @@
             this.strategyEasyRdb.Text = "Łatwa";
             this.strategyEasyRdb.UseVisualStyleBackColor = true;
             // 
-            // strategyHardRbt
+            // gameTypeGpb
             // 
-            this.strategyHardRbt.AutoSize = true;
-            this.strategyHardRbt.Location = new System.Drawing.Point(7, 43);
-            this.strategyHardRbt.Name = "strategyHardRbt";
-            this.strategyHardRbt.Size = new System.Drawing.Size(59, 17);
-            this.strategyHardRbt.TabIndex = 1;
-            this.strategyHardRbt.Text = "Trudna";
-            this.strategyHardRbt.UseVisualStyleBackColor = true;
+            this.gameTypeGpb.Controls.Add(this.computerPlayerRbt);
+            this.gameTypeGpb.Controls.Add(this.playerComputerRbt);
+            this.gameTypeGpb.Location = new System.Drawing.Point(375, 20);
+            this.gameTypeGpb.Name = "gameTypeGpb";
+            this.gameTypeGpb.Size = new System.Drawing.Size(128, 72);
+            this.gameTypeGpb.TabIndex = 8;
+            this.gameTypeGpb.TabStop = false;
+            this.gameTypeGpb.Text = "Rodzaj gry";
+            // 
+            // computerPlayerRbt
+            // 
+            this.computerPlayerRbt.AutoSize = true;
+            this.computerPlayerRbt.Location = new System.Drawing.Point(6, 43);
+            this.computerPlayerRbt.Name = "computerPlayerRbt";
+            this.computerPlayerRbt.Size = new System.Drawing.Size(115, 17);
+            this.computerPlayerRbt.TabIndex = 2;
+            this.computerPlayerRbt.Text = "Komputer vs Gracz";
+            this.computerPlayerRbt.UseVisualStyleBackColor = true;
             // 
             // playerComputerRbt
             // 
@@ -166,15 +169,15 @@
             this.playerComputerRbt.Text = "Gracz vs Komputer";
             this.playerComputerRbt.UseVisualStyleBackColor = true;
             // 
-            // computerPlayerRbt
+            // startBtn
             // 
-            this.computerPlayerRbt.AutoSize = true;
-            this.computerPlayerRbt.Location = new System.Drawing.Point(6, 43);
-            this.computerPlayerRbt.Name = "computerPlayerRbt";
-            this.computerPlayerRbt.Size = new System.Drawing.Size(115, 17);
-            this.computerPlayerRbt.TabIndex = 2;
-            this.computerPlayerRbt.Text = "Komputer vs Gracz";
-            this.computerPlayerRbt.UseVisualStyleBackColor = true;
+            this.startBtn.Location = new System.Drawing.Point(523, 76);
+            this.startBtn.Name = "startBtn";
+            this.startBtn.Size = new System.Drawing.Size(75, 23);
+            this.startBtn.TabIndex = 9;
+            this.startBtn.Text = "Start";
+            this.startBtn.UseVisualStyleBackColor = true;
+            this.startBtn.Click += new System.EventHandler(this.StartGameClick);
             // 
             // gameStateLbl
             // 
@@ -228,7 +231,7 @@
             this.nextBtn.TabIndex = 16;
             this.nextBtn.Text = "Dalej";
             this.nextBtn.UseVisualStyleBackColor = true;
-            this.nextBtn.Click += new System.EventHandler(this.nextBtn_Click);
+            this.nextBtn.Click += new System.EventHandler(this.CheckPlayerMove);
             // 
             // gameDatasLbx
             // 
@@ -238,11 +241,43 @@
             this.gameDatasLbx.Size = new System.Drawing.Size(335, 277);
             this.gameDatasLbx.TabIndex = 17;
             // 
+            // runnersCountLbl
+            // 
+            this.runnersCountLbl.AutoSize = true;
+            this.runnersCountLbl.Location = new System.Drawing.Point(52, 22);
+            this.runnersCountLbl.Name = "runnersCountLbl";
+            this.runnersCountLbl.Size = new System.Drawing.Size(83, 13);
+            this.runnersCountLbl.TabIndex = 18;
+            this.runnersCountLbl.Text = "Liczba biegaczy";
+            // 
+            // nLetterLbl
+            // 
+            this.nLetterLbl.AutoSize = true;
+            this.nLetterLbl.Location = new System.Drawing.Point(132, 16);
+            this.nLetterLbl.Name = "nLetterLbl";
+            this.nLetterLbl.Size = new System.Drawing.Size(24, 13);
+            this.nLetterLbl.TabIndex = 19;
+            this.nLetterLbl.Text = "(N):";
+            // 
+            // cancelBtn
+            // 
+            this.cancelBtn.Enabled = false;
+            this.cancelBtn.Location = new System.Drawing.Point(555, 162);
+            this.cancelBtn.Name = "cancelBtn";
+            this.cancelBtn.Size = new System.Drawing.Size(62, 23);
+            this.cancelBtn.TabIndex = 20;
+            this.cancelBtn.Text = "Anuluj grę";
+            this.cancelBtn.UseVisualStyleBackColor = true;
+            this.cancelBtn.Click += new System.EventHandler(this.CancelGameClick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(629, 442);
+            this.Controls.Add(this.cancelBtn);
+            this.Controls.Add(this.nLetterLbl);
+            this.Controls.Add(this.runnersCountLbl);
             this.Controls.Add(this.gameDatasLbx);
             this.Controls.Add(this.nextBtn);
             this.Controls.Add(this.player2VelocityTbx);
@@ -292,6 +327,9 @@
         private System.Windows.Forms.TextBox player2VelocityTbx;
         private System.Windows.Forms.Button nextBtn;
         private System.Windows.Forms.ListBox gameDatasLbx;
+        private System.Windows.Forms.Label runnersCountLbl;
+        private System.Windows.Forms.Label nLetterLbl;
+        private System.Windows.Forms.Button cancelBtn;
     }
 }
 

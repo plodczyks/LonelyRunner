@@ -29,43 +29,76 @@ namespace LonelyRunner
             random = new Random();
         }
 
-        public void StartGame(int n, int t, int k)
+        public void StartGame(int n, int t, int k, GameType gameType, Strategy strategy)
         {
             Positions.Clear();
             Velocities.Clear();
+
             N = n; this.k = k; T = t;
             ActualRound = 0;
+
+            GameType = gameType;
+            Strategy = strategy;
         }
 
         public int GenerateComputerVelocity()
         {
-            int l;
-            if (Strategy == Strategy.EASY)
+            int l = 0;
+            List<int> possibleVelocities;
+            int lastVelocity;
+            switch (GameType)
             {
-                List<int> possibleVel = new List<int>();
-                for (int i = 0; i < N * k; i++)
-                    if (!Velocities.Contains(i))
-                        possibleVel.Add(i);
+                case GameType.COMPUTER_VS_PLAYER:
+                    switch (Strategy)
+                    {
+                        case Strategy.EASY:
+                            possibleVelocities = new List<int>();
+                            for (int i = 1; i < N * k; i++)
+                                if (!Velocities.Contains(i))
+                                    possibleVelocities.Add(i);
 
-                l = possibleVel[random.Next(possibleVel.Count)];
-                Positions.Add(0);
-                Velocities.Add(l);
-            }
-            else
-            {
-                List<int> possibleVel = new List<int>();
-                for (int i = 0; i < N * k; i++)
-                    if (!Velocities.Contains(i))
-                        possibleVel.Add(i);
-
-                l = possibleVel[random.Next(possibleVel.Count)];
-                Positions.Add(0);
-                Velocities.Add(l);
+                            l = possibleVelocities[random.Next(possibleVelocities.Count)];
+                            Positions.Add(0);
+                            Velocities.Add(l);
+                            break;
+                        case Strategy.HARD:
+                            l = CalculateComputerPlayerHard();           
+                            Positions.Add(0);
+                            Velocities.Add(l);
+                            break;
+                    }
+                    break;
+                case GameType.PLAYER_VS_COMPUTER:
+                    switch (Strategy)
+                    {
+                        case Strategy.EASY:
+                            lastVelocity=Velocities.Last();
+                            for (int i = 1; i <= N * k; i++)
+                            {
+                                int greaterVelocity = (lastVelocity + i) % (N * k);
+                                if (greaterVelocity != 0 && !Velocities.Contains(greaterVelocity))
+                                { l = greaterVelocity; break; }
+                                int lowerVelocity = (lastVelocity - i + (N * k)) % (N * k);
+                                if (lowerVelocity != 0 && !Velocities.Contains(lowerVelocity))
+                                { l = lowerVelocity; break; }
+                            }
+                            Positions.Add(0);
+                            Velocities.Add(l);
+                            break;
+                        case Strategy.HARD:
+                            l = CalculatePlayerComputerHard();           
+                            Positions.Add(0);
+                            Velocities.Add(l);
+                            break;
+                    }
+                    break;
             }
             return l;
         }
 
-        public bool AddVelocity(int l)
+
+
+        public bool AddPlayerVelocity(int l)
         {
             if (Velocities.Contains(l))
             {
@@ -83,22 +116,147 @@ namespace LonelyRunner
         {
             for (int i = 0; i < Positions.Count; i++)
                 Positions[i] = (Positions[i] + Velocities[i]) % (N * k);
+            ActualRound++;
         }
 
-        public bool CheckWinState()
+        public GameState GetGameState()
         {
             var positions = new List<int>(Positions);
             positions.Sort();
             for (int i = 0; i < positions.Count; i++)
             {
-                int leftDist = Math.Min(Math.Abs(positions[i] - positions[(i - 1+positions.Count) % positions.Count]),
-                    N * k - Math.Abs(positions[i] - positions[(i - 1+positions.Count) % positions.Count]));
+                int leftDist = Math.Min(Math.Abs(positions[i] - positions[(i - 1 + positions.Count) % positions.Count]),
+                    N * k - Math.Abs(positions[i] - positions[(i - 1 + positions.Count) % positions.Count]));
                 int rightDist = Math.Min(Math.Abs(positions[i] - positions[(i + 1) % positions.Count]),
                 N * k - Math.Abs(positions[i] - positions[(i + 1) % positions.Count]));
-                if (Math.Min(leftDist, rightDist) > k) return true;
+                if (Math.Min(leftDist, rightDist) > k) return GameState.FIRST_WIN;
             }
-            return false;
+            if (ActualRound == T) return GameState.SECOND_WIN;
+
+            return GameState.NONE;
         }
+
+        #region Strategies
+
+        private int CalculatePlayerComputerHard()
+        {
+            int l=0, lastVelocity;
+            if (Positions.Count == 1)
+            {
+                lastVelocity = Velocities.Last();
+                if (lastVelocity != N * k - 1)
+                    l = lastVelocity + 1;
+                else
+                    l = lastVelocity - 1;
+            }
+            else
+            {
+                List<int> nextPositions = new List<int>();
+                for (int i = 0; i < Positions.Count; i++)
+                    nextPositions.Add((Positions[i] + Velocities[i]) % (N * k));
+                nextPositions.Sort();
+                int minDistance = -1;
+                for (int i = 0; i < nextPositions.Count; i++)
+                {
+                    int actLeftDist = Math.Min(Math.Abs(nextPositions[i] - nextPositions[(i - 1 + nextPositions.Count) % nextPositions.Count]),
+                        N * k - Math.Abs(nextPositions[i] - nextPositions[(i - 1 + nextPositions.Count) % nextPositions.Count]));
+                    int actRightDist = Math.Min(Math.Abs(nextPositions[i] - nextPositions[(i + 1) % nextPositions.Count]),
+                    N * k - Math.Abs(nextPositions[i] - nextPositions[(i + 1) % nextPositions.Count]));
+                    int actMinDist = Math.Min(actLeftDist, actRightDist);
+                    if (actMinDist > minDistance)
+                    {
+                        minDistance = actMinDist;
+                        if (actLeftDist == minDistance)
+                        {
+                            if (i == 0)
+                            { l = ((nextPositions[0] + nextPositions.Last() + N * k) / 2) % (N * k); }
+                            else
+                            {
+                                l = (nextPositions[i] + nextPositions[i - 1]) / 2;
+                            }
+                        }
+                        else //actRightDist == minDistance
+                        {
+                            if (i == nextPositions.Count - 1)
+                            { l = ((nextPositions[0] + nextPositions.Last() + N * k) / 2) % (N * k); }
+                            else
+                            {
+                                l = (nextPositions[i] + nextPositions[i + 1]) / 2;
+                            }
+                        }
+                    }
+                }
+
+                if (Velocities.Contains(l))
+                {
+                    lastVelocity = l;
+                    for (int i = 1; i <= N * k; i++)
+                    {
+                        int greaterVelocity = (lastVelocity + i) % (N * k);
+                        if (greaterVelocity != 0 && !Velocities.Contains(greaterVelocity))
+                        { l = greaterVelocity; break; }
+                        int lowerVelocity = (lastVelocity - i + (N * k)) % (N * k);
+                        if (lowerVelocity != 0 && !Velocities.Contains(lowerVelocity))
+                        { l = lowerVelocity; break; }
+                    }
+                }
+            }
+            return l;
+        }
+
+        private int CalculateComputerPlayerHard()
+        {
+            int l = 0, lastVelocity;
+            if (Positions.Count == 0)
+            {
+                l = random.Next(N * k - 2)+1;
+            }
+            else
+            {
+                List<int> nextPositions = new List<int>();
+                for (int i = 0; i < Positions.Count; i++)
+                    nextPositions.Add((Positions[i] + Velocities[i]) % (N * k));
+                nextPositions.Sort();
+                int minDistance = -1;
+                for (int i = 0; i < nextPositions.Count; i++)
+                {
+                    int actLeftDist = Math.Min(Math.Abs(nextPositions[i] - nextPositions[(i - 1 + nextPositions.Count) % nextPositions.Count]),
+                        N * k - Math.Abs(nextPositions[i] - nextPositions[(i - 1 + nextPositions.Count) % nextPositions.Count]));
+                    int actRightDist = Math.Min(Math.Abs(nextPositions[i] - nextPositions[(i + 1) % nextPositions.Count]),
+                    N * k - Math.Abs(nextPositions[i] - nextPositions[(i + 1) % nextPositions.Count]));
+                    int actMinDist = Math.Min(actLeftDist, actRightDist);
+                    if (actMinDist > minDistance)
+                    {
+                        minDistance = actMinDist;
+                        if (actLeftDist == minDistance)
+                        {
+                            l=(nextPositions[i] + k + 1) % (N * k);
+                        }
+                        else //actRightDist == minDistance
+                        {
+                            l = (nextPositions[i] - k - 1 +(N*k)) % (N * k);
+                        }
+                    }
+                }
+
+                if (Velocities.Contains(l))
+                {
+                    lastVelocity = l;
+                    for (int i = 1; i <= N * k; i++)
+                    {
+                        int greaterVelocity = (lastVelocity + i) % (N * k);
+                        if (greaterVelocity != 0 && !Velocities.Contains(greaterVelocity))
+                        { l = greaterVelocity; break; }
+                        int lowerVelocity = (lastVelocity - i + (N * k)) % (N * k);
+                        if (lowerVelocity != 0 && !Velocities.Contains(lowerVelocity))
+                        { l = lowerVelocity; break; }
+                    }
+                }
+            }
+            return l;
+        }
+
+        #endregion
     }
 
 
@@ -111,5 +269,10 @@ namespace LonelyRunner
     public enum Strategy
     {
         EASY, HARD
+    }
+
+    public enum GameState
+    {
+        NONE, FIRST_WIN, SECOND_WIN
     }
 }
