@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows.Forms;
 
@@ -11,13 +12,22 @@ namespace LonelyRunner
 {
     public partial class MainForm : Form
     {
+
+        public const int CircleCenter = 150;
+        public const int Radius = 140;
+        public const int MaxDegree = 360;
+        public const int StartSize = 8;
+        public const int RunnerSize = 4;
+        public const int KSize = 4;
         public MainForm()
         {
             InitializeComponent();
+            
             engine = new LonelyRunnerEngine();
 
             timer = new Timer() { Interval = 1000 };
             timer.Tick += RealizeNextMove;
+            //Draw();
         }
 
         LonelyRunnerEngine engine;
@@ -62,6 +72,9 @@ namespace LonelyRunner
             player1VelocityTbx.Text = player2VelocityTbx.Text = "";
 
             engine.StartGame(n, t, k, gameType, strategy);
+
+            Draw();
+
             WaitForNextMove();
         }
 
@@ -132,6 +145,8 @@ namespace LonelyRunner
         {
             engine.MoveAll();
 
+
+            Draw();
             gameDatasLbx.Items.Clear();
             for (int i = 0; i < engine.Positions.Count; i++)
             {
@@ -158,6 +173,83 @@ namespace LonelyRunner
                     WaitForNextMove();
                     break;
             }
+        }
+
+        private  void Draw()
+        {
+            Graphics g;
+            g = DrawCircle();
+            DrawKPart(g);
+            DrawRunners(g);
+
+            //g.DrawLine(pen1, 10, 50, 400, 200);
+        }
+
+        private void DrawRunners(Graphics g)
+        {
+            SolidBrush brushFirstPlayer = new SolidBrush(Color.Red);
+            SolidBrush brushSecondPlayer = new SolidBrush(Color.Black);
+
+            var k = 0;
+            var kString = speedAccuracyTbx.Text;
+            int.TryParse(kString.Substring(2), out k);
+
+            for (int i = 0; i < engine.Positions.Count; i++)
+            {
+                //if (i%2 == 0)
+                //    var tmp = 1;
+                var position = engine.Positions[i];
+                var truePosition = position%k;
+                var degreeOffset = MaxDegree/k;
+                var degree = truePosition*degreeOffset;
+
+                Point dPoint = new Point();
+                dPoint.X = (int) (CircleCenter + Radius*Math.Cos(Math.PI*degree/180.0)) - RunnerSize/2;
+                dPoint.Y = (int) (CircleCenter + Radius*Math.Sin(Math.PI*degree/180.0)) - RunnerSize/2;
+                Rectangle rect = new Rectangle(dPoint, new Size(RunnerSize, RunnerSize));
+                if (i%2 == 0)
+                    g.FillRectangle(brushFirstPlayer, rect);
+                else
+                    g.FillRectangle(brushSecondPlayer, rect);
+            }
+        }
+
+        private Graphics DrawCircle()
+        {
+            Graphics g;
+            Pen pen1 = new System.Drawing.Pen(Color.DeepPink, 2F);
+            g = pbCircle.CreateGraphics();
+            g.DrawEllipse(pen1, new Rectangle(10, 10, Radius*2, Radius*2));
+            return g;
+        }
+
+        private  void DrawKPart(Graphics g)
+        {
+            var k = 0;
+            var kString = speedAccuracyTbx.Text;
+            int.TryParse(kString.Substring(2), out k);
+
+            var degreeOffset = MaxDegree/ k;
+
+            var degree = 0;
+            while (degree <= MaxDegree)
+            {
+
+                SolidBrush brush = new SolidBrush( Color.Aqua);
+                Point dPoint = new Point();
+                dPoint.X = (int) (CircleCenter + Radius * Math.Cos(Math.PI*degree/180.0)) - KSize/2;
+                dPoint.Y = (int) (CircleCenter + Radius * Math.Sin(Math.PI*degree/180.0)) - KSize/2;
+                Rectangle rect = new Rectangle(dPoint, new Size(KSize, KSize));
+                g.FillRectangle(brush, rect);
+                degree += degreeOffset;
+            }
+
+            SolidBrush brushStart = new SolidBrush(Color.LightYellow);
+            Point startPoint = new Point();
+            startPoint.X = (int)(CircleCenter + Radius * Math.Cos(Math.PI * 0 / 180.0)) - StartSize/2;
+            startPoint.Y = (int)(CircleCenter + Radius * Math.Sin(Math.PI * 0 / 180.0)) - StartSize/2;
+            Rectangle rectStart = new Rectangle(startPoint, new Size(StartSize, StartSize));
+            g.FillRectangle(brushStart, rectStart);
         }
 
         private int ReadVelocity(string velocity)

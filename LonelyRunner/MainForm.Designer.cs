@@ -51,8 +51,10 @@
             this.runnersCountLbl = new System.Windows.Forms.Label();
             this.nLetterLbl = new System.Windows.Forms.Label();
             this.cancelBtn = new System.Windows.Forms.Button();
+            this.pbCircle = new System.Windows.Forms.PictureBox();
             this.strategyGrb.SuspendLayout();
             this.gameTypeGpb.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbCircle)).BeginInit();
             this.SuspendLayout();
             // 
             // circleLengthLbl
@@ -236,7 +238,7 @@
             // gameDatasLbx
             // 
             this.gameDatasLbx.FormattingEnabled = true;
-            this.gameDatasLbx.Location = new System.Drawing.Point(15, 162);
+            this.gameDatasLbx.Location = new System.Drawing.Point(15, 201);
             this.gameDatasLbx.Name = "gameDatasLbx";
             this.gameDatasLbx.Size = new System.Drawing.Size(335, 277);
             this.gameDatasLbx.TabIndex = 17;
@@ -270,11 +272,21 @@
             this.cancelBtn.UseVisualStyleBackColor = true;
             this.cancelBtn.Click += new System.EventHandler(this.CancelGameClick);
             // 
+            // pbCircle
+            // 
+            this.pbCircle.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.pbCircle.Location = new System.Drawing.Point(410, 201);
+            this.pbCircle.Name = "pbCircle";
+            this.pbCircle.Size = new System.Drawing.Size(300, 300);
+            this.pbCircle.TabIndex = 21;
+            this.pbCircle.TabStop = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(629, 442);
+            this.ClientSize = new System.Drawing.Size(886, 672);
+            this.Controls.Add(this.pbCircle);
             this.Controls.Add(this.cancelBtn);
             this.Controls.Add(this.nLetterLbl);
             this.Controls.Add(this.runnersCountLbl);
@@ -300,6 +312,7 @@
             this.strategyGrb.PerformLayout();
             this.gameTypeGpb.ResumeLayout(false);
             this.gameTypeGpb.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbCircle)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -330,6 +343,7 @@
         private System.Windows.Forms.Label runnersCountLbl;
         private System.Windows.Forms.Label nLetterLbl;
         private System.Windows.Forms.Button cancelBtn;
+        private System.Windows.Forms.PictureBox pbCircle;
     }
 }
 
