@@ -191,16 +191,19 @@ namespace LonelyRunner
             SolidBrush brushSecondPlayer = new SolidBrush(Color.Black);
 
             var k = 0;
+            var n = 0;
             var kString = speedAccuracyTbx.Text;
+            var nString = circleLengthTbx.Text;
             int.TryParse(kString.Substring(2), out k);
+            int.TryParse(nString, out n);
 
             for (int i = 0; i < engine.Positions.Count; i++)
             {
                 //if (i%2 == 0)
                 //    var tmp = 1;
                 var position = engine.Positions[i];
-                var truePosition = position%k;
-                var degreeOffset = MaxDegree/k;
+                var truePosition = position;
+                var degreeOffset = MaxDegree/(k*n);
                 var degree = truePosition*degreeOffset;
 
                 Point dPoint = new Point();
@@ -226,22 +229,35 @@ namespace LonelyRunner
         private  void DrawKPart(Graphics g)
         {
             var k = 0;
+            var n = 0;
             var kString = speedAccuracyTbx.Text;
+            var nString = circleLengthTbx.Text;
             int.TryParse(kString.Substring(2), out k);
+            int.TryParse(nString, out n);
 
-            var degreeOffset = MaxDegree/ k;
+
+            var degreeOffset = MaxDegree/( k*n);
 
             var degree = 0;
+            var count = 0;
             while (degree <= MaxDegree)
             {
-
-                SolidBrush brush = new SolidBrush( Color.Aqua);
+                SolidBrush brush;
+                if (count%n != 0)
+                {
+                     brush = new SolidBrush(Color.Aqua);
+                }
+                else
+                {
+                     brush = new SolidBrush(Color.Yellow);
+                }
                 Point dPoint = new Point();
-                dPoint.X = (int) (CircleCenter + Radius * Math.Cos(Math.PI*degree/180.0)) - KSize/2;
-                dPoint.Y = (int) (CircleCenter + Radius * Math.Sin(Math.PI*degree/180.0)) - KSize/2;
-                Rectangle rect = new Rectangle(dPoint, new Size(KSize, KSize));
-                g.FillRectangle(brush, rect);
-                degree += degreeOffset;
+                    dPoint.X = (int) (CircleCenter + Radius*Math.Cos(Math.PI*degree/180.0)) - KSize/2;
+                    dPoint.Y = (int) (CircleCenter + Radius*Math.Sin(Math.PI*degree/180.0)) - KSize/2;
+                    Rectangle rect = new Rectangle(dPoint, new Size(KSize, KSize));
+                    g.FillRectangle(brush, rect);
+                    degree += degreeOffset;
+                count++;
             }
 
             SolidBrush brushStart = new SolidBrush(Color.LightYellow);
