@@ -244,7 +244,7 @@ namespace LonelyRunner
             while (degree <= MaxDegree)
             {
                 SolidBrush brush;
-                if (count%n != 0)
+                if (count%k != 0)
                 {
                      brush = new SolidBrush(Color.Aqua);
                 }
@@ -286,6 +286,7 @@ namespace LonelyRunner
 
             cancelBtn.Enabled = false; nextBtn.Enabled = false;
             player1VelocityTbx.Enabled = false; player2VelocityTbx.Enabled = false;
+            pbCircle.Image = null;
             //disable down
         }
     }
