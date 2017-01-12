@@ -151,7 +151,7 @@ namespace LonelyRunner
         private int CalculatePlayerComputerEasy()
         {
             int lastVelocity = Velocities.Last();
-            int l=0;
+            int l = 0;
             for (int i = 1; i <= N * k; i++)
             {
                 int greaterVelocity = (lastVelocity + i) % (N * k);
@@ -282,6 +282,7 @@ namespace LonelyRunner
             return l;
         }
 
+
         private int CalculateComputerPlayerHard()
         {
             if (Positions.Count == 0)
@@ -376,11 +377,10 @@ namespace LonelyRunner
             }
             else return minL;
         }
-
         #endregion
+
+
     }
-
-
     public enum GameType
     {
         PLAYER_VS_COMPUTER,
@@ -396,4 +396,5 @@ namespace LonelyRunner
     {
         NONE, FIRST_WIN, SECOND_WIN
     }
+
 }
