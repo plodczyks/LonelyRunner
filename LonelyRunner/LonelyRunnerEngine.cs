@@ -44,30 +44,25 @@ namespace LonelyRunner
         public int GenerateComputerVelocity()
         {
             int l = 0;
-            List<int> possibleVelocities;
-            int lastVelocity;
             switch (GameType)
             {
                 case GameType.COMPUTER_VS_PLAYER:
                     switch (Strategy)
                     {
                         case Strategy.EASY:
-                            possibleVelocities = new List<int>();
-                            for (int i = 1; i < N * k; i++)
-                                if (!Velocities.Contains(i))
-                                    possibleVelocities.Add(i);
-
-                            l = possibleVelocities[random.Next(possibleVelocities.Count)];
+                            l = CalculateComputerPlayerEasy();
                             Positions.Add(0);
                             Velocities.Add(l);
                             break;
                         case Strategy.MEDIUM:
-                            l = CalculateComputerPlayerMedium();           
+                            l = CalculateComputerPlayerMedium();
                             Positions.Add(0);
                             Velocities.Add(l);
                             break;
                         case Strategy.HARD:
-                            //TODO: startegia
+                            l = CalculateComputerPlayerHard();
+                            Positions.Add(0);
+                            Velocities.Add(l);
                             break;
 
                     }
@@ -76,35 +71,25 @@ namespace LonelyRunner
                     switch (Strategy)
                     {
                         case Strategy.EASY:
-                            lastVelocity=Velocities.Last();
-                            for (int i = 1; i <= N * k; i++)
-                            {
-                                int greaterVelocity = (lastVelocity + i) % (N * k);
-                                if (greaterVelocity != 0 && !Velocities.Contains(greaterVelocity))
-                                { l = greaterVelocity; break; }
-                                int lowerVelocity = (lastVelocity - i + (N * k)) % (N * k);
-                                if (lowerVelocity != 0 && !Velocities.Contains(lowerVelocity))
-                                { l = lowerVelocity; break; }
-                            }
+                            l = CalculatePlayerComputerEasy();
                             Positions.Add(0);
                             Velocities.Add(l);
                             break;
                         case Strategy.MEDIUM:
-                            l = CalculatePlayerComputerMedium();           
+                            l = CalculatePlayerComputerMedium();
                             Positions.Add(0);
                             Velocities.Add(l);
                             break;
                         case Strategy.HARD:
-                            //TODO: startegia
+                            l = CalculatePlayerComputerHard();
+                            Positions.Add(0);
+                            Velocities.Add(l);
                             break;
-
-
                     }
                     break;
             }
             return l;
         }
-
 
 
         public bool AddPlayerVelocity(int l)
@@ -134,22 +119,54 @@ namespace LonelyRunner
             positions.Sort();
             for (int i = 0; i < positions.Count; i++)
             {
-                int leftDist = Math.Min(Math.Abs(positions[i] - positions[(i - 1 + positions.Count) % positions.Count]),
-                    N * k - Math.Abs(positions[i] - positions[(i - 1 + positions.Count) % positions.Count]));
-                int rightDist = Math.Min(Math.Abs(positions[i] - positions[(i + 1) % positions.Count]),
-                N * k - Math.Abs(positions[i] - positions[(i + 1) % positions.Count]));
-                if (Math.Min(leftDist, rightDist) > k) return GameState.FIRST_WIN;
+                int lonelyMeasure = CalculateNearestNeighbour(positions[i],
+                    positions[(i - 1 + positions.Count) % positions.Count],
+                    positions[(i + 1) % positions.Count]);
+                if (lonelyMeasure > k) return GameState.FIRST_WIN;
             }
             if (ActualRound == T) return GameState.SECOND_WIN;
 
             return GameState.NONE;
         }
 
+        private int CalculateNearestNeighbour(int center, int left, int right)
+        {
+            int leftDist = Math.Min(Math.Abs(center - left), N * k - Math.Abs(center - left));
+            int rightDist = Math.Min(Math.Abs(center - right), N * k - Math.Abs(center - right));
+            return Math.Min(leftDist, rightDist);
+        }
+
         #region Strategies
+
+        private int CalculateComputerPlayerEasy()
+        {
+            var possibleVelocities = new List<int>();
+            for (int i = 1; i < N * k; i++)
+                if (!Velocities.Contains(i))
+                    possibleVelocities.Add(i);
+
+            return possibleVelocities[random.Next(possibleVelocities.Count)];
+        }
+
+        private int CalculatePlayerComputerEasy()
+        {
+            int lastVelocity = Velocities.Last();
+            int l=0;
+            for (int i = 1; i <= N * k; i++)
+            {
+                int greaterVelocity = (lastVelocity + i) % (N * k);
+                if (greaterVelocity != 0 && !Velocities.Contains(greaterVelocity))
+                { l = greaterVelocity; break; }
+                int lowerVelocity = (lastVelocity - i + (N * k)) % (N * k);
+                if (lowerVelocity != 0 && !Velocities.Contains(lowerVelocity))
+                { l = lowerVelocity; break; }
+            }
+            return l;
+        }
 
         private int CalculatePlayerComputerMedium()
         {
-            int l=0, lastVelocity;
+            int l = 0, lastVelocity;
             if (Positions.Count == 1)
             {
                 lastVelocity = Velocities.Last();
@@ -218,7 +235,7 @@ namespace LonelyRunner
             int l = 0, lastVelocity;
             if (Positions.Count == 0)
             {
-                l = random.Next(N * k - 2)+1;
+                l = random.Next(N * k - 2) + 1;
             }
             else
             {
@@ -239,11 +256,11 @@ namespace LonelyRunner
                         minDistance = actMinDist;
                         if (actLeftDist == minDistance)
                         {
-                            l=(nextPositions[i] + k + 1) % (N * k);
+                            l = (nextPositions[i] + k + 1) % (N * k);
                         }
                         else //actRightDist == minDistance
                         {
-                            l = (nextPositions[i] - k - 1 +(N*k)) % (N * k);
+                            l = (nextPositions[i] - k - 1 + (N * k)) % (N * k);
                         }
                     }
                 }
@@ -263,6 +280,101 @@ namespace LonelyRunner
                 }
             }
             return l;
+        }
+
+        private int CalculateComputerPlayerHard()
+        {
+            if (Positions.Count == 0)
+            {
+                return random.Next(N * k - 2) + 1;
+            }
+
+            List<int> nextPositions = new List<int>();
+            for (int ii = 0; ii < Positions.Count; ii++)
+                nextPositions.Add((Positions[ii] + Velocities[ii]) % (N * k));
+
+            int baseLonelyCount = 0;
+            for (int ii = 0; ii < nextPositions.Count; ii++)
+            {
+                int lonelyMeasure = CalculateNearestNeighbour(nextPositions[ii],
+                        nextPositions[(ii + nextPositions.Count - 1) % nextPositions.Count],
+                nextPositions[(ii + 1) % nextPositions.Count]);
+                if (lonelyMeasure > k) baseLonelyCount++;
+            }
+
+            int maxLonelyMeasure = int.MinValue;
+            int maxL = -1;
+
+            for (int i = 1; i < N * k; i++)
+            {
+                if (Velocities.Contains(i)) { continue; }
+                var extNewPositions = new List<int>(nextPositions);
+                extNewPositions.Add(i);
+                extNewPositions.Sort();
+
+                int lonelyCount = 0;
+                int sumLonelyMeasure = 0;
+                for (int ii = 0; ii < extNewPositions.Count; ii++)
+                {
+                    int lonelyMeasure = CalculateNearestNeighbour(extNewPositions[ii],
+                        extNewPositions[(ii + extNewPositions.Count - 1) % extNewPositions.Count],
+                        extNewPositions[(ii + 1) % extNewPositions.Count]);
+                    if (lonelyMeasure > k) lonelyCount++;
+                    sumLonelyMeasure += lonelyMeasure;
+                }
+                if (baseLonelyCount <= lonelyCount && sumLonelyMeasure > maxLonelyMeasure) { maxL = i; maxLonelyMeasure = sumLonelyMeasure; }
+            }
+
+            if (maxL == -1)
+            {
+                var possibleVelocities = new List<int>();
+                for (int i = 1; i < N * k; i++)
+                    if (!Velocities.Contains(i))
+                        possibleVelocities.Add(i);
+                return possibleVelocities[random.Next(possibleVelocities.Count)];
+            }
+            else return maxL;
+        }
+
+        private int CalculatePlayerComputerHard()
+        {
+
+            List<int> nextPositions = new List<int>();
+            for (int ii = 0; ii < Positions.Count; ii++)
+                nextPositions.Add((Positions[ii] + Velocities[ii]) % (N * k));
+
+            int minLonelyMeasure = int.MaxValue;
+            int minL = -1;
+
+            for (int i = 1; i < N * k; i++)
+            {
+                if (Velocities.Contains(i)) { continue; }
+                var extNewPositions = new List<int>(nextPositions);
+                extNewPositions.Add(i);
+                extNewPositions.Sort();
+
+                int lonelyCount = 0;
+                int sumLonelyMeasure = 0;
+                for (int ii = 0; ii < extNewPositions.Count; ii++)
+                {
+                    int lonelyMeasure = CalculateNearestNeighbour(extNewPositions[ii],
+                        extNewPositions[(ii + extNewPositions.Count - 1) % extNewPositions.Count],
+                        extNewPositions[(ii + 1) % extNewPositions.Count]);
+                    if (lonelyMeasure > k) lonelyCount++;
+                    sumLonelyMeasure += lonelyMeasure;
+                }
+                if (lonelyCount == 0 && sumLonelyMeasure < minLonelyMeasure) { minL = i; minLonelyMeasure = sumLonelyMeasure; }
+            }
+
+            if (minL == -1)
+            {
+                var possibleVelocities = new List<int>();
+                for (int i = 1; i < N * k; i++)
+                    if (!Velocities.Contains(i))
+                        possibleVelocities.Add(i);
+                return possibleVelocities[random.Next(possibleVelocities.Count)];
+            }
+            else return minL;
         }
 
         #endregion

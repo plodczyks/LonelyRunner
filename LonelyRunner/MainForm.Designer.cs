@@ -35,6 +35,7 @@
             this.roundCountTbx = new System.Windows.Forms.TextBox();
             this.speedAccuracyTbx = new System.Windows.Forms.TextBox();
             this.strategyGrb = new System.Windows.Forms.GroupBox();
+            this.strategyHardRbt = new System.Windows.Forms.RadioButton();
             this.strategyMediumRbt = new System.Windows.Forms.RadioButton();
             this.strategyEasyRdb = new System.Windows.Forms.RadioButton();
             this.gameTypeGpb = new System.Windows.Forms.GroupBox();
@@ -52,7 +53,6 @@
             this.nLetterLbl = new System.Windows.Forms.Label();
             this.cancelBtn = new System.Windows.Forms.Button();
             this.pbCircle = new System.Windows.Forms.PictureBox();
-            this.strategyHardRbt = new System.Windows.Forms.RadioButton();
             this.strategyGrb.SuspendLayout();
             this.gameTypeGpb.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbCircle)).BeginInit();
@@ -117,6 +117,16 @@
             this.strategyGrb.TabIndex = 7;
             this.strategyGrb.TabStop = false;
             this.strategyGrb.Text = "Strategia";
+            // 
+            // strategyHardRbt
+            // 
+            this.strategyHardRbt.AutoSize = true;
+            this.strategyHardRbt.Location = new System.Drawing.Point(7, 66);
+            this.strategyHardRbt.Name = "strategyHardRbt";
+            this.strategyHardRbt.Size = new System.Drawing.Size(59, 17);
+            this.strategyHardRbt.TabIndex = 2;
+            this.strategyHardRbt.Text = "Trudna";
+            this.strategyHardRbt.UseVisualStyleBackColor = true;
             // 
             // strategyMediumRbt
             // 
@@ -283,21 +293,11 @@
             this.pbCircle.TabIndex = 21;
             this.pbCircle.TabStop = false;
             // 
-            // strategyHardRbt
-            // 
-            this.strategyHardRbt.AutoSize = true;
-            this.strategyHardRbt.Location = new System.Drawing.Point(7, 66);
-            this.strategyHardRbt.Name = "strategyHardRbt";
-            this.strategyHardRbt.Size = new System.Drawing.Size(59, 17);
-            this.strategyHardRbt.TabIndex = 2;
-            this.strategyHardRbt.Text = "Trudna";
-            this.strategyHardRbt.UseVisualStyleBackColor = true;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(886, 672);
+            this.ClientSize = new System.Drawing.Size(736, 525);
             this.Controls.Add(this.pbCircle);
             this.Controls.Add(this.cancelBtn);
             this.Controls.Add(this.nLetterLbl);
@@ -318,6 +318,8 @@
             this.Controls.Add(this.speedAccuracyLbl);
             this.Controls.Add(this.roundCountLbl);
             this.Controls.Add(this.circleLengthLbl);
+            this.MaximumSize = new System.Drawing.Size(752, 563);
+            this.MinimumSize = new System.Drawing.Size(752, 563);
             this.Name = "MainForm";
             this.Text = "Samotny Biegacz";
             this.strategyGrb.ResumeLayout(false);
