@@ -62,6 +62,7 @@ namespace LonelyRunner
             else gameType = GameType.COMPUTER_VS_PLAYER;
 
             if (strategyEasyRdb.Checked) strategy = Strategy.EASY;
+            else if (strategyMediumRbt.Checked) strategy = Strategy.MEDIUM;
             else strategy = Strategy.HARD;
 
 

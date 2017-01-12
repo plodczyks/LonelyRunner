@@ -61,11 +61,15 @@ namespace LonelyRunner
                             Positions.Add(0);
                             Velocities.Add(l);
                             break;
-                        case Strategy.HARD:
-                            l = CalculateComputerPlayerHard();           
+                        case Strategy.MEDIUM:
+                            l = CalculateComputerPlayerMedium();           
                             Positions.Add(0);
                             Velocities.Add(l);
                             break;
+                        case Strategy.HARD:
+                            //TODO: startegia
+                            break;
+
                     }
                     break;
                 case GameType.PLAYER_VS_COMPUTER:
@@ -85,11 +89,16 @@ namespace LonelyRunner
                             Positions.Add(0);
                             Velocities.Add(l);
                             break;
-                        case Strategy.HARD:
-                            l = CalculatePlayerComputerHard();           
+                        case Strategy.MEDIUM:
+                            l = CalculatePlayerComputerMedium();           
                             Positions.Add(0);
                             Velocities.Add(l);
                             break;
+                        case Strategy.HARD:
+                            //TODO: startegia
+                            break;
+
+
                     }
                     break;
             }
@@ -138,7 +147,7 @@ namespace LonelyRunner
 
         #region Strategies
 
-        private int CalculatePlayerComputerHard()
+        private int CalculatePlayerComputerMedium()
         {
             int l=0, lastVelocity;
             if (Positions.Count == 1)
@@ -204,7 +213,7 @@ namespace LonelyRunner
             return l;
         }
 
-        private int CalculateComputerPlayerHard()
+        private int CalculateComputerPlayerMedium()
         {
             int l = 0, lastVelocity;
             if (Positions.Count == 0)
@@ -268,7 +277,7 @@ namespace LonelyRunner
 
     public enum Strategy
     {
-        EASY, HARD
+        EASY, MEDIUM, HARD
     }
 
     public enum GameState

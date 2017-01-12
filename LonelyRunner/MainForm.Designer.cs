@@ -35,7 +35,7 @@
             this.roundCountTbx = new System.Windows.Forms.TextBox();
             this.speedAccuracyTbx = new System.Windows.Forms.TextBox();
             this.strategyGrb = new System.Windows.Forms.GroupBox();
-            this.strategyHardRbt = new System.Windows.Forms.RadioButton();
+            this.strategyMediumRbt = new System.Windows.Forms.RadioButton();
             this.strategyEasyRdb = new System.Windows.Forms.RadioButton();
             this.gameTypeGpb = new System.Windows.Forms.GroupBox();
             this.computerPlayerRbt = new System.Windows.Forms.RadioButton();
@@ -52,6 +52,7 @@
             this.nLetterLbl = new System.Windows.Forms.Label();
             this.cancelBtn = new System.Windows.Forms.Button();
             this.pbCircle = new System.Windows.Forms.PictureBox();
+            this.strategyHardRbt = new System.Windows.Forms.RadioButton();
             this.strategyGrb.SuspendLayout();
             this.gameTypeGpb.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbCircle)).BeginInit();
@@ -108,23 +109,24 @@
             // strategyGrb
             // 
             this.strategyGrb.Controls.Add(this.strategyHardRbt);
+            this.strategyGrb.Controls.Add(this.strategyMediumRbt);
             this.strategyGrb.Controls.Add(this.strategyEasyRdb);
             this.strategyGrb.Location = new System.Drawing.Point(233, 20);
             this.strategyGrb.Name = "strategyGrb";
-            this.strategyGrb.Size = new System.Drawing.Size(117, 72);
+            this.strategyGrb.Size = new System.Drawing.Size(117, 95);
             this.strategyGrb.TabIndex = 7;
             this.strategyGrb.TabStop = false;
             this.strategyGrb.Text = "Strategia";
             // 
-            // strategyHardRbt
+            // strategyMediumRbt
             // 
-            this.strategyHardRbt.AutoSize = true;
-            this.strategyHardRbt.Location = new System.Drawing.Point(7, 43);
-            this.strategyHardRbt.Name = "strategyHardRbt";
-            this.strategyHardRbt.Size = new System.Drawing.Size(59, 17);
-            this.strategyHardRbt.TabIndex = 1;
-            this.strategyHardRbt.Text = "Trudna";
-            this.strategyHardRbt.UseVisualStyleBackColor = true;
+            this.strategyMediumRbt.AutoSize = true;
+            this.strategyMediumRbt.Location = new System.Drawing.Point(7, 43);
+            this.strategyMediumRbt.Name = "strategyMediumRbt";
+            this.strategyMediumRbt.Size = new System.Drawing.Size(61, 17);
+            this.strategyMediumRbt.TabIndex = 1;
+            this.strategyMediumRbt.Text = "Średnia";
+            this.strategyMediumRbt.UseVisualStyleBackColor = true;
             // 
             // strategyEasyRdb
             // 
@@ -281,6 +283,16 @@
             this.pbCircle.TabIndex = 21;
             this.pbCircle.TabStop = false;
             // 
+            // strategyHardRbt
+            // 
+            this.strategyHardRbt.AutoSize = true;
+            this.strategyHardRbt.Location = new System.Drawing.Point(7, 66);
+            this.strategyHardRbt.Name = "strategyHardRbt";
+            this.strategyHardRbt.Size = new System.Drawing.Size(59, 17);
+            this.strategyHardRbt.TabIndex = 2;
+            this.strategyHardRbt.Text = "Trudna";
+            this.strategyHardRbt.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -327,7 +339,7 @@
         private System.Windows.Forms.TextBox roundCountTbx;
         private System.Windows.Forms.TextBox speedAccuracyTbx;
         private System.Windows.Forms.GroupBox strategyGrb;
-        private System.Windows.Forms.RadioButton strategyHardRbt;
+        private System.Windows.Forms.RadioButton strategyMediumRbt;
         private System.Windows.Forms.RadioButton strategyEasyRdb;
         private System.Windows.Forms.GroupBox gameTypeGpb;
         private System.Windows.Forms.RadioButton computerPlayerRbt;
@@ -344,6 +356,7 @@
         private System.Windows.Forms.Label nLetterLbl;
         private System.Windows.Forms.Button cancelBtn;
         private System.Windows.Forms.PictureBox pbCircle;
+        private System.Windows.Forms.RadioButton strategyHardRbt;
     }
 }
 
