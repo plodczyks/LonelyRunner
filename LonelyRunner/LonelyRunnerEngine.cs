@@ -67,7 +67,9 @@ namespace LonelyRunner
                             Velocities.Add(l);
                             break;
                         case Strategy.HARD:
-                            //TODO: startegia
+                            l = CalculateComputerPlayerHard();
+                            Positions.Add(0);
+                            Velocities.Add(l);
                             break;
 
                     }
@@ -95,7 +97,9 @@ namespace LonelyRunner
                             Velocities.Add(l);
                             break;
                         case Strategy.HARD:
-                            //TODO: startegia
+                            l = CalculatePlayerComputerHard();
+                            Positions.Add(0);
+                            Velocities.Add(l);
                             break;
 
 
@@ -247,6 +251,67 @@ namespace LonelyRunner
                         }
                     }
                 }
+
+                if (Velocities.Contains(l))
+                {
+                    lastVelocity = l;
+                    for (int i = 1; i <= N * k; i++)
+                    {
+                        int greaterVelocity = (lastVelocity + i) % (N * k);
+                        if (greaterVelocity != 0 && !Velocities.Contains(greaterVelocity))
+                        { l = greaterVelocity; break; }
+                        int lowerVelocity = (lastVelocity - i + (N * k)) % (N * k);
+                        if (lowerVelocity != 0 && !Velocities.Contains(lowerVelocity))
+                        { l = lowerVelocity; break; }
+                    }
+                }
+            }
+            return l;
+        }
+
+        private int CalculatePlayerComputerHard()
+        {
+            int l = 0, lastVelocity;
+            if (Positions.Count == 1)
+            {
+                lastVelocity = Velocities.Last();
+                if (lastVelocity != N * k - 1)
+                    l = lastVelocity + 1;
+                else
+                    l = lastVelocity - 1;
+            }
+            else
+            {
+               
+                
+
+                if (Velocities.Contains(l))
+                {
+                    lastVelocity = l;
+                    for (int i = 1; i <= N * k; i++)
+                    {
+                        int greaterVelocity = (lastVelocity + i) % (N * k);
+                        if (greaterVelocity != 0 && !Velocities.Contains(greaterVelocity))
+                        { l = greaterVelocity; break; }
+                        int lowerVelocity = (lastVelocity - i + (N * k)) % (N * k);
+                        if (lowerVelocity != 0 && !Velocities.Contains(lowerVelocity))
+                        { l = lowerVelocity; break; }
+                    }
+                }
+            }
+            return l;
+        }
+
+        private int CalculateComputerPlayerHard()
+        {
+            int l = 0, lastVelocity;
+            if (Positions.Count == 0)
+            {
+                l = random.Next(N * k - 2) + 1;
+            }
+            else
+            {
+                
 
                 if (Velocities.Contains(l))
                 {
