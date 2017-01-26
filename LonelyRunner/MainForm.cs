@@ -22,7 +22,7 @@ namespace LonelyRunner
         public MainForm()
         {
             InitializeComponent();
-            
+
             engine = new LonelyRunnerEngine();
 
             timer = new Timer() { Interval = 1000 };
@@ -176,7 +176,7 @@ namespace LonelyRunner
             }
         }
 
-        private  void Draw()
+        private void Draw()
         {
             Graphics g;
             g = DrawCircle();
@@ -204,14 +204,14 @@ namespace LonelyRunner
                 //    var tmp = 1;
                 var position = engine.Positions[i];
                 var truePosition = position;
-                var degreeOffset = MaxDegree/(k*n);
-                var degree = truePosition*degreeOffset;
+                var degreeOffset = ((double)MaxDegree)/ (k * n);
+                var degree = truePosition * degreeOffset;
 
                 Point dPoint = new Point();
-                dPoint.X = (int) (CircleCenter + Radius*Math.Cos(Math.PI*degree/180.0)) - RunnerSize/2;
-                dPoint.Y = (int) (CircleCenter + Radius*Math.Sin(Math.PI*degree/180.0)) - RunnerSize/2;
+                dPoint.X = (int)(CircleCenter + Radius * Math.Cos(Math.PI * degree / 180.0)) - RunnerSize / 2;
+                dPoint.Y = (int)(CircleCenter + Radius * Math.Sin(Math.PI * degree / 180.0)) - RunnerSize / 2;
                 Rectangle rect = new Rectangle(dPoint, new Size(RunnerSize, RunnerSize));
-                if (i%2 == 0)
+                if (i % 2 == 0)
                     g.FillRectangle(brushFirstPlayer, rect);
                 else
                     g.FillRectangle(brushSecondPlayer, rect);
@@ -223,11 +223,11 @@ namespace LonelyRunner
             Graphics g;
             Pen pen1 = new System.Drawing.Pen(Color.DeepPink, 2F);
             g = pbCircle.CreateGraphics();
-            g.DrawEllipse(pen1, new Rectangle(10, 10, Radius*2, Radius*2));
+            g.DrawEllipse(pen1, new Rectangle(10, 10, Radius * 2, Radius * 2));
             return g;
         }
 
-        private  void DrawKPart(Graphics g)
+        private void DrawKPart(Graphics g)
         {
             var k = 0;
             var n = 0;
@@ -237,34 +237,34 @@ namespace LonelyRunner
             int.TryParse(nString, out n);
 
 
-            var degreeOffset = MaxDegree/( k*n);
+            var degreeOffset = ((double)MaxDegree) / (k * n);
 
-            var degree = 0;
+            var degree = 0.0;
             var count = 0;
-            while (degree <= MaxDegree)
+            while (count < n * k)
             {
                 SolidBrush brush;
-                if (count%k != 0)
+                if (count % k != 0)
                 {
-                     brush = new SolidBrush(Color.Aqua);
+                    brush = new SolidBrush(Color.Aqua);
                 }
                 else
                 {
-                     brush = new SolidBrush(Color.Yellow);
+                    brush = new SolidBrush(Color.Yellow);
                 }
                 Point dPoint = new Point();
-                    dPoint.X = (int) (CircleCenter + Radius*Math.Cos(Math.PI*degree/180.0)) - KSize/2;
-                    dPoint.Y = (int) (CircleCenter + Radius*Math.Sin(Math.PI*degree/180.0)) - KSize/2;
-                    Rectangle rect = new Rectangle(dPoint, new Size(KSize, KSize));
-                    g.FillRectangle(brush, rect);
-                    degree += degreeOffset;
+                dPoint.X = (int)(CircleCenter + Radius * Math.Cos(Math.PI * degree / 180.0)) - KSize / 2;
+                dPoint.Y = (int)(CircleCenter + Radius * Math.Sin(Math.PI * degree / 180.0)) - KSize / 2;
+                Rectangle rect = new Rectangle(dPoint, new Size(KSize, KSize));
+                g.FillRectangle(brush, rect);
+                degree += degreeOffset;
                 count++;
             }
 
             SolidBrush brushStart = new SolidBrush(Color.LightYellow);
             Point startPoint = new Point();
-            startPoint.X = (int)(CircleCenter + Radius * Math.Cos(Math.PI * 0 / 180.0)) - StartSize/2;
-            startPoint.Y = (int)(CircleCenter + Radius * Math.Sin(Math.PI * 0 / 180.0)) - StartSize/2;
+            startPoint.X = (int)(CircleCenter + Radius * Math.Cos(Math.PI * 0 / 180.0)) - StartSize / 2;
+            startPoint.Y = (int)(CircleCenter + Radius * Math.Sin(Math.PI * 0 / 180.0)) - StartSize / 2;
             Rectangle rectStart = new Rectangle(startPoint, new Size(StartSize, StartSize));
             g.FillRectangle(brushStart, rectStart);
         }
